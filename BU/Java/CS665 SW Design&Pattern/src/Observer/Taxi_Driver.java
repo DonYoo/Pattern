@@ -9,7 +9,7 @@ public class Taxi_Driver extends Driver implements MyObserver
     public String Type(){
     	return "T";
     }
-    
+    @Override
     public void update (Object customer)
     {
     	if(customer instanceof Customer){
@@ -18,7 +18,7 @@ public class Taxi_Driver extends Driver implements MyObserver
 				System.out.print(" with Chocolate and a flower");
 			}
 			System.out.println(" to Customer "+((Customer) customer).getNumber());
-			
+			((Customer) customer).notice(this);
 		}
     }
 }

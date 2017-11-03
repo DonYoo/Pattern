@@ -23,7 +23,7 @@ public class Customer {
 		in = new Scanner(System.in);
 		System.out.print("\nCustomer "+ CustomerNumber+ " (position "+CustomerPosition +") order : ");
 		Order = in.nextLine();
-		if(Order.equals("Ice Cream") || Order.equals("Forzen Chicken")){
+		if(Order.equals("Ice Cream") || Order.equals("Frozen Chicken")){
 			frozen = true;
 		}
 		else if(Order.equals("Birthday Cake")){
@@ -39,11 +39,14 @@ public class Customer {
 	public int getNumber(){
 		return CustomerNumber;
 	}
-	public boolean isFronze(){
+	public boolean isFrozen(){
 		return frozen;
 	}
 	public boolean isBirthday(){
 		return birthday;
+	}
+	public void notice(Driver driver){
+		System.out.println("(Customer) Deliver has been schedule with "+driver.Type()+driver.getPosition());
 	}
 
 }

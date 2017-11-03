@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class Driver implements MyObserver{
     private int position;
-    Random ran = new Random();
     
     public Driver(){
+    	Random ran = new Random();
     	this.position = ran.nextInt(Fast_Delivery.citysize) + 1;
     }
     

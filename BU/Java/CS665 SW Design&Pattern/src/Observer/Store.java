@@ -6,10 +6,9 @@ public class Store extends CommonObservable implements MyObserver
 {
     private int position;
     private boolean Traffic = false;
-    
-    Random ran = new Random();
 
     public Store(){
+    	Random ran = new Random();
     	this.position = ran.nextInt(Fast_Delivery.citysize) + 1;
     }
     
@@ -41,7 +40,7 @@ public class Store extends CommonObservable implements MyObserver
     			}
     		}
     		// if its frozen food with delivery range father than 2 miles or Traffic jam event, go to Van
-    		if(customer.isFronze() && 
+    		if(customer.isFrozen() && 
     				((shortestDistance > 2) || (Traffic == true)) ){
     			if(Traffic){
     				System.out.println("Traffic Jam, deliver would take longer than usual");

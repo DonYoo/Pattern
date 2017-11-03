@@ -5,6 +5,7 @@ public class Van_Driver extends Driver
     public Van_Driver() {
 	}
     
+    @Override
     public String Type(){
     	return "V";
     }
@@ -16,7 +17,7 @@ public class Van_Driver extends Driver
 				System.out.print(" with Chocolate and a flower");
 			}
 			System.out.println(" to Customer "+((Customer) customer).getNumber());
-			
+			((Customer) customer).notice(this);
 		}
 	}
 }
