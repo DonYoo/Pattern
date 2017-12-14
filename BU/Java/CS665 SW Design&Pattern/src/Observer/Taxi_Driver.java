@@ -1,6 +1,6 @@
 package Observer;
 
-public class Taxi_Driver extends Driver implements MyObserver
+public class Taxi_Driver extends Driver
 {
     public Taxi_Driver() {
 	}

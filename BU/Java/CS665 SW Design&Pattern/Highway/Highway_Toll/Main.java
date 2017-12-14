@@ -27,7 +27,16 @@ day, he gets 10% discount in toll calculation for that travel.
 that month.
  */
 
-
+/*
+ * use the visitor pattern.
+ * 
+ * 2 different visitor 
+ * 1 for distance.
+ * 1 for cost.
+ * 
+ * decorator pattern for vehicle
+ * 
+ */
 public class Main {
 
 	public static Random ran = new Random();
