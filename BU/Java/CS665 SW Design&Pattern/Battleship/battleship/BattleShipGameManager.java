@@ -1,19 +1,22 @@
 package battleship;
 
-public class BattleShip {
+public class BattleShipGameManager {
     private Player[] players;
-	private Constants constants;
 
     /**
      * Instantiates a new Game.
      */
-    public BattleShip() {
-    	constants = new Constants();
-    	constants.setup();
+    public BattleShipGameManager() {
+    	// setup the game board table
+    	new Constants().setup();
     	
+    	// create players
         players = new Player[]{
                 new Player(1), new Player(2)	// Player id
         };
+        players[0].setOpponent(players[1]);
+        players[1].setOpponent(players[0]);
+        
     }
 
     /**
@@ -21,13 +24,14 @@ public class BattleShip {
      */
     public void start() {
         int i = 0;
-        int j = 1;
         int size = players.length;
         Player player = null;
 
         // take turn to play.
         while(players[0].getLives() > 0 && players[1].getLives() > 0) {
-            players[i++ % size].turnToPlay(players[j++ % size]);
+        	i = i % size;
+        	System.out.printf("player %d's turn\n", i+1);
+            players[i++].Attack();
         }
         player = (players[0].getLives() < players[1].getLives()) ? players[1] : players[0];
         System.out.printf("Congrats Player %d, you won!",player.getId());

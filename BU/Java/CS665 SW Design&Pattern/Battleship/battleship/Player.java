@@ -1,16 +1,17 @@
 package battleship;
 
 import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import Command.*;
+import Ship.Ship;
 
 public class Player {
     private int id;
     private int lives;
     private Board board;
-    private Map<Point, Boolean> History;
-    private Scanner s;
+    private Player opponent;
+    
+    BattleRemoteControl RemoteControl;
+    
 
     /**
      * Instantiates a new Player.
@@ -18,11 +19,10 @@ public class Player {
      */
     public Player(int id) {
         System.out.println("\n=== Setting up everything for Player "+id+" ====");
-        this.s = new Scanner(System.in);
         this.id = id;
+        // create board and ship position
         this.board = new Board();
         this.lives = Constants.PLAYER_LIVES;
-        this.History = new HashMap<>();	// for keeping the shots record.
     }
 
     /**
@@ -48,32 +48,23 @@ public class Player {
 
     /**
      * Turn to play.
+     * @return 
      */
-    public void turnToPlay(Player opponent) {
-        System.out.println("\n\nPlayer "+id+" Choose coordinates you want to shots (x y) ");
-        Point point = new Point(s.nextInt(), s.nextInt());
-
-        while(History.get(point) != null) {
-            System.out.print("This position has already been Shots");
-            point = new Point(s.nextInt(), s.nextInt());
-        }
-        attack(point, opponent);
+    public Ship update(Point point) {
+    	return board.targetShip(point);
     }
 
-    /**
-     * Attack
-     */
-    private void attack(Point point, Player opponent) {
-        Ship ship = opponent.board.targetShip(point);
-        boolean isShipHit = (ship != null) ? true : false;
+	public void setOpponent(Player player) {
+		this.opponent = player;
+		
+        BattleshipCommand Attack_command = new Attack(opponent);
+        RemoteControl = new BattleRemoteControl();
 
-        History.put(point, isShipHit);	// record this position is shoted.
-        System.out.print("Player "+id+", targets (" +(int)point.getX() +", "+(int)point.getY()+")");
-        System.out.println("...and " + ((isShipHit) ? "HITS!" : "misses..."));
-        
-        if(isShipHit) {
-            ship.shipWasHit();
-            opponent.decrementLiveByOne();
-        }
-    }
+        // set attack command in 0.
+        RemoteControl.setCommand(0, Attack_command);
+	}
+	
+	public void Attack(){
+        RemoteControl.AttackButton(0);
+	}   
 }

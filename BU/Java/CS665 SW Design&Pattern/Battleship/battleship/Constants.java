@@ -19,10 +19,10 @@ public class Constants {
     public static int BOARD_ROWS;
     public static int BOARD_COLUMNS;
     
-    private Scanner s;
+    private Scanner s = new Scanner(System.in);
         
     public Constants() {
-    	s = new Scanner(System.in);
+    	
     }
 
 	public void setup() {
