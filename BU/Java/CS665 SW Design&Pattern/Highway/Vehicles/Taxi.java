@@ -7,9 +7,5 @@ public class Taxi extends Vehicle{
 		return "Taxi";
 	}
 	
-	@Override
-	public double price() {
-		return price * 0.5;
-	}
 
 }

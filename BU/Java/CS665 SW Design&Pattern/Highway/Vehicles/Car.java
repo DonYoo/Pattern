@@ -2,19 +2,11 @@ package Vehicles;
 
 public class Car extends Vehicle{
 
-	private boolean trailer = false;
+	public boolean trailer = false;
 	
 	@Override
 	public String getDescription() {
 		return "Car";
-	}
-	
-	@Override
-	public double price() {
-		if(trailer == true){
-			price *= 2;
-		}
-		return price;
 	}
 	
 	public void setTrailer(String set){
@@ -24,5 +16,17 @@ public class Car extends Vehicle{
 		else{
 			trailer = false;
 		}
+	}
+	
+	public String toString(){
+		StringBuffer display = new StringBuffer();
+		display.append(super.toString());
+		if(trailer == true)
+			display.append("trailer" + "\n");
+		return display.toString();
+	}
+	
+	public boolean trailer(){
+		return trailer;
 	}
 }

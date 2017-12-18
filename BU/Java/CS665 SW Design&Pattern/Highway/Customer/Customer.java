@@ -1,6 +1,7 @@
 package Customer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -20,81 +21,63 @@ highways
 
 
 public class Customer {
-	
-	private List<Vehicle>Customers;
+
+	private List<Vehicle>VehicleList;
 	private int CustomerID;
 	public static Random ran = new Random();
-	
+	private VehicleFactory factory;
+	private VehicleStore store;
+
 	public Customer(int i) {
 		CustomerID = i;
-		this.Customers = new ArrayList<>();
-		
-		int ranNumCars = 1+ ran.nextInt(2);	// random number of vehicle that customer owned.
-		// create random number of vehicles
-		for(int j=0; j<ranNumCars; j++){
-			Vehicle Vehicles = new Vehicle();
-			int TypeVehicle = 1 + ran.nextInt(3);
-			
-			// option can be added here.
-			switch (TypeVehicle){
-				case 1: 
-					Vehicles = new Car();
-					break;
-				case 2:
-					Vehicles = new Taxi();
-					break;
-				case 3:
-					Vehicles = new Truck();
-					break;
-				case 4:
-					Vehicles = new Van();
-					break;
-				default:
-					break;
-			}
-			
-			int year = 1987 + ran.nextInt(30);		//1987 ~ 2017
-			Vehicles.register_year(year);
-			int weight = 1000 + ran.nextInt(1000);	//kg
-			Vehicles.register_weight(weight);
-			
-			this.register(Vehicles);
-		}
+		this.VehicleList = new ArrayList<>();	
+		factory = new VehicleFactory();
+		store = new VehicleStore(factory);
 	}
-	
+
 	public int getID(){
 		return CustomerID;
 	}
-	
-	public void register(Vehicle type){
-		Vehicle vehicle = type;
-		this.Customers.add(vehicle);
+
+	public void register(){
+		int ranNumCars = 1+ ran.nextInt(2);	// random number of vehicle that customer owned.
+		// create random number of vehicles
+		Vehicle Vehicles = null;
+
+		// factory pattern
+		for(int j=0; j<ranNumCars; j++){
+			int TypeVehicle = 1 + ran.nextInt(3);
+			Vehicles = store.orderVehicle(TypeVehicle);
+		}
+		this.VehicleList.add(Vehicles);
 	}
-	
+
 	public void removeRegister(String name){
-		for(int i =0; i<Customers.size(); i++){
-			if(Customers.get(i).name == name){
-				Customers.remove(i);
+		//Iterator<Vehicle> iterator = VehicleList.iterator();
+		
+		for(int i =0; i<VehicleList.size(); i++){
+			if(VehicleList.get(i).name == name){
+				VehicleList.remove(i);
 			}
 		}
 	}
-	
+
 	public double Monthly_Payment(){
 		double payment = 0;
-		for(Vehicle vehicle : Customers){
+		for(Vehicle vehicle : VehicleList){
 			payment += vehicle.monthly_statement;
 		}
 		return payment;
 	}
-	
+
 	public void resetPayment(){
-		for(Vehicle vehicle : Customers){
+		for(Vehicle vehicle : VehicleList){
 			vehicle.resetStatement();;
 		}
 	}
-	
+
 	public List<Vehicle> VehicleList(){
-		return Customers;
+		return VehicleList;
 	}
 
 }

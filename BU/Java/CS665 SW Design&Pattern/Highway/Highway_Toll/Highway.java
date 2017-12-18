@@ -16,19 +16,14 @@ When a car is passing a toll gate, the following data is collected:
 public class Highway {
 	
 	private double distance;
-	public ArrayList <Tollgate>TollgateList;
+	public ArrayList <Tollgate> TollgateList;
 	private Random ran = new Random();
+	private TollgateFactory tollgateFactory;
 	
-	public Highway(double distance){
-		TollgateList = new ArrayList();
-		this.distance = distance;
+	public Highway(){
+		TollgateList = new ArrayList<>();
+		tollgateFactory = new TollgateFactory();
 		
-		// make 10 toll gates for each highway.
-		for(int j=0; j<Constants.number_tollgates; j++){
-			double tollposition = ran.nextDouble()*Constants.highway_miles;
-			Tollgate Tollgate = new Tollgate(tollposition);
-			this.addTollgates(Tollgate);
-		}
 		/*
 		//toll positions make sure this is in order
 		for(int j=0; j<Constants.number_tollgates; j++){
@@ -37,16 +32,17 @@ public class Highway {
 		*/
 	}
 
-	public void addTollgates(Tollgate gate){
-		TollgateList.add(gate);
-		// when tollgate is added in highway, sort the tollgates. 
-		Collections.sort(TollgateList, TollgateCompare);
+	public void BuildTollgate() {
+		// make 10 toll gates for each highway.
+		Tollgate toll = new Tollgate();
+		for(int j=0; j<Constants.number_tollgates; j++){
+			double tollposition = ran.nextDouble()*Constants.highway_miles;
+			toll = tollgateFactory.createTollgate();
+			toll.setPosition(tollposition);
+			TollgateList.add(toll);
+		}
 	}
-	
-	public void setDistance(double distance){
-		this.distance = distance;
-	}
-	
+
 	public static Comparator<Tollgate> TollgateCompare = new Comparator<Tollgate>() {
 	
 			public int compare(Tollgate T1, Tollgate T2) {

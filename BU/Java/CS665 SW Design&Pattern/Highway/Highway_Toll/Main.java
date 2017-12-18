@@ -8,6 +8,26 @@ import java.util.Random;
 import Customer.Customer;
 import Vehicles.*;
 
+/**
+ * 
+ * @author DonYoo
+ *I think your design needs a refactoring. 
+
+- Also take a look at your class diagram. The realization is not correctly shown. The associations have no labels so that the meaning of the associations lines is not clear. 
+
+- Not every composition is a composite pattern. You need to have tree structure. take a look at the slides of the composite pattern.
+
+- having a price method in Vehicle class would mean more the vehicle price and not the toll cost of passing a segment highway.  
+
+
+- You can use multiple patterns, like factory patterns, singleton for the main TollGateSystem, Iterator (as you used), visitor for price and distance calculation. 
+
+
+
+If you take time and refactor and redesign your solution I would accept it and improve your grade. 
+
+
+ */
 /*
  * 
  *Driving distance calculation. Highways can be modeled as graphs that are divided by
@@ -38,39 +58,30 @@ that month.
  * 
  */
 public class Main {
-
 	public static Random ran = new Random();
-	
+
 	public static void main(String[] args) {
-		
-		// make 10 highways
-		Highway[] Highways = new Highway[10];
 
-		for(int i=0; i<Constants.number_highway; i++){
-			Highways[i] = new Highway(Constants.highway_miles);
-		}
-		
-		// make 10 customers
-		Customer[] customers = new Customer[Constants.number_customer];
-		for(int i=0; i<Constants.number_customer; i++){
-			customers[i] = new Customer(i);
-		}
+		// singleton pattern.		
+		TollCollector ETC = TollCollector.getSingletonInstance();
+		ETC.makeHighway(Constants.number_highway);
+		ETC.registerCustomer();
 
-		TollCollector ETC = new TollCollector();
-		
 		// simulate 9 months.
 		for(int month =0; month<Constants.time_period; month++){
 			// ncst = number of customers
-			for(Customer customer : customers){
+			for(Customer customer : ETC.getCustomers()){
 				for(Vehicle vehicle : customer.VehicleList()){
 					int timestravel = ran.nextInt(Constants.number_highway);
 					for(int i =0; i<timestravel; i++){
-						
+
 						double endPoint = ran.nextDouble()*Constants.highway_miles;
 						double startPoint = ran.nextDouble()*(Constants.highway_miles - endPoint);
-						int whichHighway = ran.nextInt(Constants.number_highway);
-						
-						ETC.travel(vehicle, startPoint, endPoint, Highways[whichHighway]);
+
+						// get random highway.
+						Highway highway = ETC.getHighways()[ran.nextInt(Constants.number_highway)];
+
+						vehicle.travel(startPoint, endPoint, highway);
 					}	
 				}
 				System.out.println("Customer "+ customer.getID()+ ", "+(month+1)+" Monthly Payment : " + customer.Monthly_Payment());

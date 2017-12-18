@@ -9,14 +9,12 @@ public class Truck extends Vehicle{
 		return "Truck";
 	}
 
-	@Override
-	public double price() {
-		return price * 2
-				+ this.tons * price;
-	}
 	
 	public void setWeight(double tons){
 		this.tons = tons;
 	}
 
+	public double getWeight(){
+		return tons;
+	}
 }
