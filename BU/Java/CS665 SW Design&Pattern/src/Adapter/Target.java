@@ -1,9 +1,6 @@
 package Adapter;
 
 // Socket
-public class Target {
-	public void drive(char letter){
-		
-	}
-
+public interface Target {
+	public void screw();
 }
